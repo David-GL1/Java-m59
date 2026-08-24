@@ -1,0 +1,90 @@
+Docker HUB
+---------------
+https://hub.docker.com/
+https://hub.docker.com/_/mysql
+https://hub.docker.com/_/adminer
+
+Ejecutar ls siguientes comandos para iniciar los servicios de Docker
+---------------
+docker run --rm --name mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql
+docker run --rm --name adminer -d -p 8080:8080 adminer
+
+Ingresar via shell al contenedor mysql para ver la ip generada
+---------------
+docker exec -it mysql /bin/bash
+cat /etc/hosts
+
+Ingresar al panel grafico mediante el navegador
+---------------
+http://localhost:8080/
+Servidor: 172.17.0.2 (O bien la IP obtenida al ingresar al contenedor de mysql
+
+1.- Crear la base de datos Modulo34 o trabajar con la creada en el modulo 33
+2.- Crear tablas
+
+Consultas tipo DDL (Data Definition Language)
+-------------------
+
+CREATE
+**********
+	CREATE TABLE usuarios (
+    	idUsuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    	nombre VARCHAR(100),
+    	edad INT
+	);
+
+	CREATE TABLE direcciones (
+    	idDireccion INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    	idUsuario INT NOT NULL,
+		calle VARCHAR(100),
+    	numero INT,
+		estado VARCHAR(100)
+	);
+
+	CREATE TABLE telefonos (
+    	idTelefono INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    	idUsuario INT NOT NULL,
+		numero VARCHAR(100),
+    	tipo VARCHAR(100)
+	);
+
+
+Consultas tipo DML y DQL (Data Manipulation Language y Data Query Language)
+-----------------------------
+
+INSERT
+**********
+insert into usuarios(nombre, edad) values("Enrique", 35);
+insert into usuarios(nombre, edad) values("Laura", 25);
+insert into usuarios(nombre, edad) values("Josefina", 40);
+insert into usuarios(nombre, edad) values("Uriel", 28);
+
+//Enrique 1
+insert into telefonos(idUsuario, numero, tipo) values(1, "+52 654-2121-3232", "celular");
+insert into telefonos(idUsuario, numero, tipo) values(1, "+52 654-9874-1549", "oficina");
+//Laura 2
+insert into telefonos(idUsuario, numero, tipo) values(2, "+52 748-4982-0654", "celular");
+//Josefina 3
+insert into telefonos(idUsuario, numero, tipo) values(3, "+52 963-0201-0036", "celular");
+//Uriel 4
+insert into telefonos(idUsuario, numero, tipo) values(4, "+52 508-0014-0809", "casa");
+
+//Enrique 1
+insert into direcciones(idUsuario, calle, numero, estado) values(1, "Emiliano Zapata", 24, "Jalisco");
+//Laura 2
+insert into direcciones(idUsuario, calle, numero, estado) values(2, "Francisco Villa", 101, "Zacatecas");
+insert into direcciones(idUsuario, calle, numero, estado) values(2, "Avenida De los Insurgentes", 5002, "Zacatecas");
+//Josefina 3
+insert into direcciones(idUsuario, calle, numero, estado) values(3, "Cerrada de los pinos", 5, "Queretaro");
+//Uriel 4
+insert into direcciones(idUsuario, calle, numero, estado) values(4, "Privada rosales", 900, "Guanajuato");
+insert into direcciones(idUsuario, calle, numero, estado) values(4, "Avenida centra", 246, "Guanajuato");
+
+select * from usuarios;
+select * from direcciones;
+select * from telefonos;
+
+////// Java
+
+driver - com.mysql.jdbc.Driver
+url - jdbc:mysql://localhost:3306/nombre_basedatos
