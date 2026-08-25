@@ -6,6 +6,7 @@ public class Direccion {
     private String calle;
     private int numero;
     private String estado;
+    private int cp;
 
     public int getIdDireccion() {
         return idDireccion;
@@ -46,6 +47,16 @@ public class Direccion {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public int getCp() {
+        return cp;
+    }
+
+    public void setCp(int cp) {
+        this.cp = cp;
+    }
+
+
 
     @Override
     public String toString() {

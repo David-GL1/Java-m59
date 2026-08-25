@@ -1,8 +1,9 @@
 package com.ebac.modulo34;
 
-import com.ebac.modulo33.MysqlConnection;
+import com.ebac.modulo34.dto.Direccion;
 import com.ebac.modulo34.dto.Telefono;
 import com.ebac.modulo34.dto.Usuario;
+import com.ebac.modulo34.model.DireccionModel;
 import com.ebac.modulo34.model.TelefonoModel;
 import com.ebac.modulo34.model.UsuarioModel;
 
@@ -14,12 +15,11 @@ public class Contexto {
     static Connection connection;
 
     public static void main(String[] args) throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/modulo34";
+        String url = "jdbc:mysql://localhost:3306/moduloEjemplo";
         String user = "root";
-        String password = "root";
+        String password = "root123";
 
-        MysqlConnection mysqlConnection = new MysqlConnection();
-        connection = mysqlConnection.getConnection(url, user, password);
+        connection = java.sql.DriverManager.getConnection(url, user, password);
 
         operacionConUsuarios();
         operacionConTelefonos();
@@ -68,8 +68,40 @@ public class Contexto {
         System.out.println(telefonoEnDB);
     }
 
-    public static void operacionConDirecciones() {
-        // TODO Implementar algunas operaciones
+    public static void operacionConDirecciones() throws SQLException {
+        System.out.println("------- OPERACION CON DIRECCIONES -------");
+
+        Direccion direccionProbable = crearDireccion(1, "Av. Reforma", 123, "Puebla", 75700);
+
+        DireccionModel direccionModel = new DireccionModel(connection);
+        Direccion direccionGuardada = direccionModel.guardar(direccionProbable);
+        System.out.println("Guardado: " + direccionGuardada);
+        System.out.println("-----------------------------------");
+
+        Direccion direccionEnDB = direccionModel.obtenerPorId(1);
+        System.out.println("Obtenido por ID 1: " + direccionEnDB);
+        System.out.println("-----------------------------------");
+
+        direccionEnDB.setCalle("Av. Tecnológico");
+        direccionEnDB.setNumero(456);
+        Direccion direccionActualizada = direccionModel.actualizarPorId(direccionEnDB);
+        System.out.println("Actualizado: " + direccionActualizada);
+        System.out.println("-----------------------------------");
+
+        direccionModel.eliminarPorId(1);
+        Direccion direccionEliminada = direccionModel.obtenerPorId(1);
+        System.out.println("Tras eliminar: " + direccionEliminada);
+    }
+
+    private static Direccion crearDireccion(int idUsuario, String calle, int numero, String estado, int cp) {
+        Direccion direccion = new Direccion();
+        direccion.setIdUsuario(idUsuario);
+        direccion.setCalle(calle);
+        direccion.setNumero(numero);
+        direccion.setEstado(estado);
+        direccion.setCp(cp);
+
+        return direccion;
     }
 
     private static Usuario crearUsuario(String nombre, int edad) {
