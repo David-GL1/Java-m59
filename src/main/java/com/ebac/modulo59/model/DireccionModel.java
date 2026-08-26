@@ -1,6 +1,6 @@
-package com.ebac.modulo34.model;
+package com.ebac.modulo59.model;
 
-import com.ebac.modulo34.dto.Direccion;
+import com.ebac.modulo59.dto.Direccion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

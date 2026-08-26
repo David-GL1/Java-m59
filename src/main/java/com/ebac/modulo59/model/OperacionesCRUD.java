@@ -1,6 +1,5 @@
-package com.ebac.modulo34.model;
+package com.ebac.modulo59.model;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface OperacionesCRUD<T> {

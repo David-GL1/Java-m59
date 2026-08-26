@@ -1,4 +1,4 @@
-package com.ebac.modulo34.dto;
+package com.ebac.modulo59.dto;
 
 public class Telefono {
     private int idTelefono;

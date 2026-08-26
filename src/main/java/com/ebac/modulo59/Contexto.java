@@ -1,31 +1,45 @@
-package com.ebac.modulo34;
+package com.ebac.modulo59;
 
-import com.ebac.modulo34.dto.Direccion;
-import com.ebac.modulo34.dto.Telefono;
-import com.ebac.modulo34.dto.Usuario;
-import com.ebac.modulo34.model.DireccionModel;
-import com.ebac.modulo34.model.TelefonoModel;
-import com.ebac.modulo34.model.UsuarioModel;
+import com.ebac.modulo59.dto.Direccion;
+import com.ebac.modulo59.dto.Telefono;
+import com.ebac.modulo59.dto.Usuario;
+import com.ebac.modulo59.model.DireccionModel;
+import com.ebac.modulo59.model.TelefonoModel;
+import com.ebac.modulo59.model.UsuarioModel;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Contexto {
 
     static Connection connection;
 
     public static void main(String[] args) throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/moduloEjemplo";
-        String user = "root";
-        String password = "root123";
+        connection = MysqlConnection.getConnection();
 
-        connection = java.sql.DriverManager.getConnection(url, user, password);
+        ejecutarConsultaConStatement();
 
         operacionConUsuarios();
         operacionConTelefonos();
         operacionConDirecciones();
 
         connection.close();
+    }
+
+    public static void ejecutarConsultaConStatement() throws SQLException {
+        System.out.println("------- CONSULTA SELECT CON STATEMENT -------");
+        String sql = "SELECT * FROM usuarios";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            System.out.println("ID: " + resultSet.getInt("idUsuario") +
+                    ", Nombre: " + resultSet.getString("nombre") +
+                    ", Edad: " + resultSet.getInt("edad"));
+        }
+        System.out.println("--------------------------------------------");
     }
 
     public static void operacionConUsuarios() throws SQLException {
@@ -56,7 +70,6 @@ public class Contexto {
         System.out.println(usuario2Eliminado);
     }
 
-
     public static void operacionConTelefonos() throws SQLException {
         System.out.println("------- OPERACION CON TELEFONOS -------");
         Telefono telefono = crearTelefono(1, "55-11111-22222", "Casa");
@@ -82,7 +95,7 @@ public class Contexto {
         System.out.println("Obtenido por ID 1: " + direccionEnDB);
         System.out.println("-----------------------------------");
 
-        direccionEnDB.setCalle("Av. Tecnológico");
+        direccionEnDB.setCalle("Av. Tecnologico");
         direccionEnDB.setNumero(456);
         Direccion direccionActualizada = direccionModel.actualizarPorId(direccionEnDB);
         System.out.println("Actualizado: " + direccionActualizada);
